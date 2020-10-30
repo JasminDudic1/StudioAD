@@ -1,0 +1,180 @@
+<div class="calendar-container" *ngIf="events">
+
+
+  <div>
+    Hour segments:
+    <select (change)="hourChanged($event.target.value)" [value]="hourSegments">
+      <option *ngFor='let value of values;'>{{value}}</option>
+    </select>
+
+    Day Begin:
+    <select (change)="startChanged($event.target.value)" [value]="dayStartHour">
+
+      <option *ngFor='let value of start;'>{{value}}</option>
+    </select>
+
+    Day End:
+    <select (change)="endChanged($event.target.value)" [value]="dayEndHour">
+      <option *ngFor='let value of end;'>{{value}}</option>
+    </select>
+
+  </div>
+
+
+  <div class="row mt-4">
+    <div class="col-md-4 text-left">
+    </div>
+    <div class="col-md-4 text-center">
+      <h3
+        class="mt-0">{{ viewDate | calendarSchedulerDate:(view + 'ViewTitle'):locale:weekStartsOn:excludeDays:viewDays:startsWithToday }}</h3>
+      <select #viewDayOptionSelect1 class="form-control d-none d-md-block d-xl-none" [ngModel]="viewDays"
+              (change)="viewDaysOptionChanged(viewDayOptionSelect1.value)">
+        <option [value]="1">Per Day</option>
+        <option [value]="3">Per Three Days</option>
+        <option [value]="7">Per Week</option>
+      </select>
+    </div>
+    <div class="col-md-4 text-right">
+      <div class="row">
+        <div class="col-6 d-md-none d-xl-flex col-xl-6 valign-center text-right">
+          <select #viewDayOptionSelect2 class="form-control m-1" [ngModel]="viewDays"
+                  (change)="viewDaysOptionChanged(viewDayOptionSelect2.value)">
+            <option [value]="1">Per Day</option>
+            <option [value]="3">Per Three Days</option>
+            <option [value]="7">Per Week</option>
+          </select>
+        </div>
+        <div class="col-6 col-md-12 col-xl-6">
+          <div class="btn-group m-1" role="group">
+            <button type="button" class="btn btn-primary"
+                    mwlCalendarPreviousView
+                    [view]="view"
+                    [(viewDate)]="viewDate"
+                    [daysInWeek]="viewDays"
+                    [excludeDays]="excludeDays"
+                    [disabled]="prevBtnDisabled"
+                    (viewDateChange)="dateOrViewChanged()">
+                            <span class="valign-center">
+                                <i title="Precedente"
+                                   class="material-icons md-18">keyboard_arrow_left</i>
+                            </span>
+            </button>
+            <button type="button" class="btn btn-light"
+                    mwlCalendarToday
+                    [(viewDate)]="viewDate"
+                    (viewDateChange)="dateOrViewChanged()">
+                            <span class="valign-center">
+                                <i title="Oggi"
+                                   class="material-icons md-18">today</i>
+                            </span>
+            </button>
+            <button type="button" class="btn btn-primary"
+                    mwlCalendarNextView
+                    [view]="view"
+                    [(viewDate)]="viewDate"
+                    [daysInWeek]="viewDays"
+                    [excludeDays]="excludeDays"
+                    [disabled]="nextBtnDisabled"
+                    (viewDateChange)="dateOrViewChanged()">
+                            <span class="valign-center">
+                                <i title="Successivo"
+                                   class="material-icons md-18">keyboard_arrow_right</i>
+                            </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <div [ngSwitch]="view">
+    <calendar-scheduler-view *ngSwitchCase="CalendarView.Week"
+                             [viewDate]="viewDate"
+                             [events]="events"
+                             [locale]="locale"
+                             [forceViewDays]="forceViewDays"
+                             [weekStartsOn]="weekStartsOn"
+                             [excludeDays]="excludeDays"
+                             [startsWithToday]="startsWithToday"
+                             [hourSegments]="hourSegments"
+                             [dayStartHour]="dayStartHour"
+                             [dayEndHour]="dayEndHour"
+                             [dayModifier]="dayModifier"
+                             [hourModifier]="hourModifier"
+                             [segmentModifier]="segmentModifier"
+                             [eventModifier]="eventModifier"
+                             [showEventActions]="true"
+                             [showSegmentHour]="true"
+                             [zoomEventOnHover]="true"
+                             (viewDaysChanged)="viewDaysChanged($event)"
+                             (dayHeaderClicked)="dayHeaderClicked($event.day)"
+                             (hourClicked)="hourClicked($event.hour)"
+                             (segmentClicked)="segmentClicked('Clicked', $event.segment)"
+                             (eventClicked)="eventClicked('Clicked', $event.event)"
+                             (eventTimesChanged)="eventTimesChanged($event)"
+                             [refresh]="refresh"
+
+    >
+    </calendar-scheduler-view>
+  </div>
+
+  <input type="password" [(ngModel)]="passwordInput" (change)="passwordChanged($event)">
+
+  <br>
+
+  <br>
+
+  <br>
+
+  <div *ngIf="isLoggedIn()">
+
+    <label id="content">
+      <input [owlDateTimeTrigger]="dt" [owlDateTime]="dt" [(ngModel)]="startDateModel" [readonly]="true">
+      <owl-date-time ngDefaultControl #dt></owl-date-time>
+      Start
+    </label>
+
+    <br>
+
+    <label>
+      <input [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" [(ngModel)]="endDateModel" [readonly]="true">
+      <owl-date-time ngDefaultControl [pickerType]="'timer'" #dt1></owl-date-time>
+      End
+    </label>
+
+    <br>
+
+    <label>
+
+      <input type="text" [(ngModel)]="titleInput">
+      Title
+    </label>
+
+    <br>
+
+    <label>
+  <textarea matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5" [(ngModel)]="details">
+  </textarea>
+      Details
+    </label>
+
+    <br>
+
+    <input [style.background]="color"
+           [(colorPicker)]="color" [readOnly]="true"/>
+
+    <br>
+
+    <button (click)="addNew()">Click me</button>
+    <button (click)="cancel()">Cancel</button>
+
+  </div>
+
+
+</div>
+
+
