@@ -1,5 +1,7 @@
 import {Component, OnInit, Inject, LOCALE_ID, HostListener, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
+import { ElementRef} from '@angular/core';
+
 
 import * as moment from 'moment';
 
@@ -155,6 +157,8 @@ export class AppComponent implements OnInit {
 
     this.appService.getEvents(this.actions)
       .then((events: CalendarSchedulerEvent[]) => this.events = events);
+
+    
   }
 
   viewDaysOptionChanged(viewDays: number): void {
@@ -240,7 +244,7 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    const event = <CalendarSchedulerEvent>{
+    let event = <CalendarSchedulerEvent>{
       id: this.appService.getMax() + '',
       start: this.startDate,
       end: this.endDate,
@@ -249,7 +253,7 @@ export class AppComponent implements OnInit {
       content: this.details,
       color: {primary: this.color, secondary: this.color},
       actions: this.actions,
-      status: AppComponent.loggedIn as CalendarSchedulerEventStatus,
+      status: 'dajana' as CalendarSchedulerEventStatus,
       isClickable: true,
       isDisabled: false,
       draggable: false,
@@ -258,6 +262,14 @@ export class AppComponent implements OnInit {
         afterEnd: false
       }
     };
+
+    if (AppComponent.loggedIn === 'dajana') {
+      console.log(AppComponent.loggedIn);
+      event.status = 'ok' as CalendarSchedulerEventStatus;
+    } else if (AppComponent.loggedIn === 'arnesa') {
+      console.log(AppComponent.loggedIn);
+      event.status = 'warning' as CalendarSchedulerEventStatus;
+    }
 
     if (this.editingEvent == null) {
       this.appService.addNewEvent(event);
@@ -316,9 +328,9 @@ export class AppComponent implements OnInit {
   passwordChanged($event: Event) {
 
     if (this.passwordInput === '5ladybug5') {
-      AppComponent.loggedIn = 'Dajana';
+      AppComponent.loggedIn = 'dajana';
     } else if (this.passwordInput === 'buba8mara8') {
-      AppComponent.loggedIn = 'Arnesa';
+      AppComponent.loggedIn = 'arnesa';
     } else {
       AppComponent.loggedIn = null;
       this.endDateModel = null;

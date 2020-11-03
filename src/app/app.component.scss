@@ -1,8 +1,46 @@
-.calendar-container {
-  border: 1px solid transparent;
-  border-color: #fff #ddd;
-  margin: 0 2em 2em
+::ng-deep .calendar-container {
+  min-width: 1000px !important;
+  overflow: scroll !important;
+  //border: 1px solid transparent;
+  //border-color: #fff #ddd;
+  //margin: 0 2em 2em
 }
+
 mat-form-field {
   margin-right: 12px;
+}
+
+::ng-deep .cal-scheduler-view .cal-scheduler .cal-scheduler-cols .cal-scheduler-col .cal-scheduler-event-container .cal-scheduler-event .cal-scheduler-event-title-container {
+  width: 100% !important;
+  display: -ms-flexbox !important;
+  -webkit-box-orient: horizontal !important;
+  -webkit-box-direction: normal !important;
+  -ms-flex-flow: row wrap !important;
+  display: flex !important;
+  flex-direction: column-reverse !important;
+}
+
+::ng-deep .cal-scheduler-event-status {
+  margin: 7px 0 !important;
+  width: 100% !important;
+  height: 30px !important;
+  background: grey !important;
+  border-radius: 50px !important;
+  border: 1px solid #000 !important;
+}
+
+.dajana {
+  background-color: #ee94a3;
+}
+
+.arnesa {
+  background-color: #a440a4;
+}
+
+::ng-deep .danger {
+  background-color: #a440a4 !important;
+}
+
+::ng-deep .ok {
+  background-color: #ee94a3 !important;
 }

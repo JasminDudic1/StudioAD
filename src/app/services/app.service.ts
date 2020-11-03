@@ -7,15 +7,6 @@ import {
   CalendarSchedulerEventStatus,
   CalendarSchedulerEventAction
 } from 'angular-calendar-scheduler';
-import {
-  addDays,
-  startOfHour,
-  addHours,
-  subHours,
-  setHours,
-  subMinutes,
-  addMinutes
-} from 'date-fns';
 
 
 @Injectable()
@@ -57,6 +48,7 @@ export class AppService {
     localStorage.setItem('events', JSON.stringify(this.events));
 
     this.max++;
+
   }
 
   // tslint:disable-next-line:typedef
